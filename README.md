@@ -1,12 +1,12 @@
 # Daily News Agent
 
-An intelligent news aggregation and summarization system powered by LangChain and OpenAI. This project fetches technology news from NewsData.io API and generates AI-powered summaries for each article.
+An intelligent news aggregation and summarization system powered by OpenAI. This project fetches technology news from NewsData.io API and generates AI-powered summaries for each article.
 
 ## Features
 
 - **News Fetching**: Automatically fetches the latest technology news from NewsData.io API
 - **Data Preprocessing**: Cleans and structures raw API responses for processing
-- **AI-Powered Summarization**: Uses OpenAI's language models via LangChain to generate concise 3-4 line summaries
+- **AI-Powered Summarization**: Uses OpenAI's language models to generate concise 3-4 line summaries
 - **Structured Output**: Saves both raw news data and summaries in JSON format
 - **Individual Article Processing**: Summarizes each news article separately with metadata
 
@@ -15,7 +15,6 @@ An intelligent news aggregation and summarization system powered by LangChain an
 ```
 Daily News Agent/
 ├── agents/
-│   ├── fetcher_agent.py       # News fetching functionality
 │   └── summerizer_agent.py    # AI summarization agent
 ├── app/
 │   ├── config.py              # Configuration and environment variables
@@ -25,6 +24,7 @@ Daily News Agent/
 │   └── news_summary.json      # AI-generated summaries
 ├── test/
 │   └── agent_test.py          # Main execution script
+│   └── news_api_test.py       #Checks and loads the news 
 ├── utils/
 │   ├── fetcher.py             # Utility functions for news fetching
 │   └── preprocessing.py       # Data preprocessing utilities
@@ -134,27 +134,6 @@ from utils.fetcher import fetch_news
 news_data = fetch_news()
 ```
 
-### Custom Summarization
-
-```python
-from agents.summerizer_agent import run_summarizer
-from utils.preprocessing import preprocess_news
-
-# Load and preprocess data
-with open("data/news_response.json", "r") as f:
-    api_response = json.load(f)
-
-news_data = preprocess_news(api_response, limit=5)
-
-# Generate summaries
-result = run_summarizer(news_data)
-
-print(f"Summarized {result['total_articles']} articles")
-for summary in result['summaries']:
-    print(f"Title: {summary['title']}")
-    print(f"Summary: {summary['summary']}\n")
-```
-
 ## Output Format
 
 ### news_summary.json Structure
@@ -173,52 +152,6 @@ for summary in result['summaries']:
     }
   ]
 }
-```
-
-## Dependencies
-
-Core dependencies:
-
-- `langchain` - LLM framework
-- `langchain-core` - Core LangChain functionality
-- `langchain-openai` - OpenAI integration
-- `langchainhub` - Pre-built prompts and chains
-- `requests` - HTTP requests for API calls
-- `python-dotenv` - Environment variable management
-
-See `requirements.txt` for complete list.
-
-## API Details
-
-### NewsData.io API
-
-- **Endpoint**: `https://newsdata.io/api/1/news`
-- **Parameters**:
-  - `apikey`: Your API key
-  - `q`: Search query (e.g., "technology")
-  - `language`: Language code (e.g., "en")
-- **Rate Limits**: Check NewsData.io documentation
-
-### OpenAI API
-
-- **Models Supported**:
-  - `gpt-4o-mini` (recommended for cost-efficiency)
-  - `gpt-4o`
-  - `gpt-3.5-turbo`
-- **Usage**: Summarization tasks
-
-## Workflow
-
-```
-1. Fetch News (fetcher.py)
-   ↓
-2. Save Raw Data (data/news_response.json)
-   ↓
-3. Preprocess Articles (preprocessing.py)
-   ↓
-4. AI Summarization (summerizer_agent.py)
-   ↓
-5. Save Summaries (data/news_summary.json)
 ```
 
 ## Customization
@@ -275,32 +208,4 @@ MODEL_NAME=gpt-4o
    python -c "from utils.fetcher import fetch_news; fetch_news()"
    ```
 
-## Contributing
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## License
-
-This project is open source and available under the [MIT License](LICENSE).
-
-## Author
-
-**Kushagra** - [GitHub Profile](https://github.com/Kushagra3355)
-
-## Acknowledgments
-
-- NewsData.io for news API
-- OpenAI for language models
-- LangChain for the LLM framework
-
-## Support
-
-For issues, questions, or contributions, please open an issue on the [GitHub repository](https://github.com/Kushagra3355/Daily-News-Agent/issues).
-
----
-
-**Happy News Summarizing! 📰🤖**
