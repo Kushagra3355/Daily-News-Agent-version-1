@@ -1,0 +1,16 @@
+langchain
+langchain-core
+langchain-community
+langchain-openai
+langchain-text-splitters
+langgraph
+requests
+python-dotenv
+streamlit
+fastapi
+uvicorn[standard]
+python-multipart
+requests
+docx2txt
+pydantic
+typing-extensions
