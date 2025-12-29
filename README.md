@@ -4,7 +4,7 @@ An intelligent news aggregation and summarization system powered by OpenAI. This
 
 ## Features
 
-- **News Fetching**: Automatically fetches the latest technology news from NewsData.io API
+- **News Fetching**: Automatically fetches the latest technology news from NewsData.io API with pagination support (up to 3 pages)
 - **Data Preprocessing**: Cleans and structures raw API responses for processing
 - **AI-Powered Summarization**: Uses OpenAI's language models to generate concise 3-4 line summaries
 - **Structured Output**: Saves both raw news data and summaries in JSON format
@@ -18,16 +18,18 @@ Daily News Agent/
 │   └── summerizer_agent.py    # AI summarization agent
 ├── app/
 │   ├── config.py              # Configuration and environment variables
-│   └── dependencies.py        # LLM initialization
+│   ├── dependencies.py        # LLM initialization
+│   └── main.py                # Main application entry point
 ├── data/
 │   ├── news_response.json     # Raw news data from API
 │   └── news_summary.json      # AI-generated summaries
 ├── test/
-│   └── agent_test.py          # Main execution script
-│   └── news_api_test.py       #Checks and loads the news 
+│   ├── agent_test.py          # Test script for agent functionality
+│   └── news_api_test.py       # Test script for news API
 ├── utils/
-│   ├── fetcher.py             # Utility functions for news fetching
-│   └── preprocessing.py       # Data preprocessing utilities
+│   ├── fetcher.py             # News fetching with pagination
+│   ├── preprocessing.py       # Data preprocessing utilities
+│   └── scheduler.py           # Job scheduler for daily news pipeline
 ├── requirements.txt           # Project dependencies
 └── .env                       # Environment variables (not in repo)
 ```
@@ -98,6 +100,7 @@ Modify parameters in `utils/fetcher.py`:
 
 - **Query**: Change the topic (default: "technology")
 - **Language**: Set language preference (default: "en")
+- **Pagination**: Fetches up to 3 pages of results automatically
 - **API Endpoint**: NewsData.io API v1
 
 ### Preprocessing Configuration
@@ -108,9 +111,30 @@ Adjust in `utils/preprocessing.py`:
 
 ## Usage
 
+### Running the Application
+
+The simplest way to run the complete news aggregation and summarization pipeline:
+
+```bash
+python app/main.py
+```
+
+Or using the module syntax:
+
+```bash
+python -m app.main
+```
+
+This will automatically:
+
+1. Fetch fresh news articles from NewsData.io API (up to 3 pages)
+2. Preprocess and clean the article data
+3. Generate AI-powered summaries for each article
+4. Save results to `data/news_summary.json`
+
 ### Basic Usage
 
-Run the news fetching and summarization pipeline:
+Alternatively, you can run individual test scripts:
 
 ```bash
 python -m test.agent_test
@@ -125,12 +149,12 @@ This will:
 
 ### Fetch Fresh News
 
-To fetch new news articles:
+To fetch new news articles (automatically fetches up to 3 pages):
 
 ```python
 from utils.fetcher import fetch_news
 
-# Fetch news and save to data/news_response.json
+# Fetch news with pagination and save to data/news_response.json
 news_data = fetch_news()
 ```
 
@@ -166,6 +190,7 @@ params = {
     "q": "artificial intelligence",  # Change topic here
     "language": "en"
 }
+# Automatically fetches up to 3 pages for the specified topic
 ```
 
 ### Adjust Summary Length
@@ -201,11 +226,3 @@ MODEL_NAME=gpt-4o
    Solution: Check .env file has correct keys
    Verify keys are active on respective platforms
    ```
-
-3. **No News Data**
-   ```
-   Solution: Run news fetcher first
-   python -c "from utils.fetcher import fetch_news; fetch_news()"
-   ```
-
-
