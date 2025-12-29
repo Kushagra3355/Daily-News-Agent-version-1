@@ -10,7 +10,7 @@ def fetch_news():
 
     all_results = []
 
-    for _ in range(3):
+    for _ in range(2):
         response = requests.get(url, params=params)
         data = response.json()
 
