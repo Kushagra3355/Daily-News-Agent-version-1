@@ -19,15 +19,17 @@ Daily News Agent/
 ├── app/
 │   ├── config.py              # Configuration and environment variables
 │   └── dependencies.py        # LLM initialization
+│   └── main.py                # Runs the application
 ├── data/
 │   ├── news_response.json     # Raw news data from API
 │   └── news_summary.json      # AI-generated summaries
 ├── test/
 │   └── agent_test.py          # Main execution script
-│   └── news_api_test.py       #Checks and loads the news 
+│   └── news_api_test.py       # Checks and loads the news 
 ├── utils/
 │   ├── fetcher.py             # Utility functions for news fetching
 │   └── preprocessing.py       # Data preprocessing utilities
+│   └── scheduler.py           # runs all functions
 ├── requirements.txt           # Project dependencies
 └── .env                       # Environment variables (not in repo)
 ```
