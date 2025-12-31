@@ -1,5 +1,7 @@
 # Daily News Agent
 
+Live Demo: https://daily-news-summarizer-agent.streamlit.app/
+
 An intelligent news aggregation and summarization system powered by OpenAI. This project fetches news from newsdata.io API and generates AI-powered summaries for each article.
 
 ## Features
